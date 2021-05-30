@@ -6,7 +6,7 @@ bp = Blueprint('user', __name__)
 
 
 @bp.route('/coin', methods=['POST'])
-def add_user():
+def add_coins():
     """
     add cryptos to watch
     -  {
@@ -29,18 +29,18 @@ def add_user():
     
     elif not crypto_models.get_one_coin(ticker):
         # username doesn't exist on Upbit KRW market
-        return redirect(url_for('main.user_index'), code=400)
+        return redirect(url_for('main.user_index'), code=400) # main.user_index --> 뭘로 바꿔야하냐?
     
-    elif not upbit_api.get_one_user(target_name=ticker):
-        # username not in db -> add user & add tweets
-        user_model.add_user_to_db(coin_info)
-        tweet_model.add_user_tweet(ticker)
-        return redirect(url_for('main.user_index', msg_code=3), code=200)
+    # elif not upbit_api.get_one_user(target_name=ticker):
+    #     # username not in db -> add user & add tweets
+    #     user_model.add_user_to_db(coin_info)
+    #     tweet_model.add_user_tweet(ticker)
+    #     return redirect(url_for('main.user_index', msg_code=3), code=200)
     
-    else:
-        # if there is username in db already
-        tweet_model.update_user_tweet(username)
-        return redirect(url_for('main.user_index', msg_code=3), code=200)
+    # else:
+    #     # if there is username in db already
+    #     tweet_model.update_user_tweet(username)
+    #     return redirect(url_for('main.user_index', msg_code=3), code=200)
 
 
 @bp.route('/user/')
