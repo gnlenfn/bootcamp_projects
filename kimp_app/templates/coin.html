@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block alert %}
+{% if alert_msg %}
+<div class="alert alert-{{ alert_msg.type }}" role="alert">
+  {{ alert_msg.msg }}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block title %}
+Favorite Cryptos
+{% endblock %}
+
+{% block lead %}
+즐겨찾기 할 코인을 조회, 추가, 및 삭제하는 페이지입니다.
+{% endblock %}
+
+{% block main_body %}
+<form method="POST" action="/api/coin">
+  <input name="ticker" style="margin-bottom:10px" class="form-control" type="text" placeholder="Enter tickers">
+  <input type="submit" class="btn btn-primary" value="Add" />
+</form>
+
+{% if coin_data %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ticker</th>
+      <th scope="col">Korean name</th>
+      <th scope="col">Current Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for coin, price in coin_data %}
+    <tr>
+      <th scope="row">{{ coin.ticker }}</th>
+      <td>{{ coin.name_kor }}</td>
+      <td>{{ price.current }}</td>
+      <td>
+        <a class="btn btn-secondary", href='/api/coin/{{ coin.ticker }}'>
+          Delete
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% endblock %}
