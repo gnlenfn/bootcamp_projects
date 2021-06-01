@@ -23,11 +23,12 @@ class Price(db.Model):
 
 
 def add_coin_price(ticker):
-    min_candle = upbit_api.get_candles("KRW-"+ticker.upper(), 
-                                       "minutes", "1", "1")[0]
-    
+    ticker = ticker.upper()
+    min_candle = upbit_api.get_candles(ticker, "minutes", "1", "1")
+
     if get_coin_price(ticker):
         del_price_from_db(ticker)
+        
     added = Price(
         current = min_candle['trade_price'],
         high = min_candle['high_price'],
@@ -37,13 +38,12 @@ def add_coin_price(ticker):
 
     db.session.add(added)
     db.session.commit()
-
     
 def get_coin_price(ticker):
     return Price.query.filter_by(crypto_ticker=ticker).first()
 
 def get_prices():
-    return Price.query.all().order_by(Price.crypto_ticker)
+    return Price.query.all()
 
 def del_price_from_db(ticker):
     target = Price.query.filter(Price.ticker==ticker).first()

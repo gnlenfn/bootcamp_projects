@@ -18,13 +18,13 @@ def show_coins():
     """
     
     ticker = request.form.get('ticker')
-    #try:
-    coin_data = upbit_api.get_crypto_info(ticker)
-    crypto_models.add_crypto_to_db(coin_data)    
-    price_models.add_coin_price(ticker)
-    
-    # except Exception as e:
-    #     return print(e) #redirect(url_for('crypto.user_index'), code=400)
+    try:
+        coin_data = upbit_api.get_crypto_info(ticker)
+        crypto_models.add_crypto_to_db(coin_data)    
+        price_models.add_coin_price(ticker)
+
+    except Exception as e:
+        return print(e) #redirect(url_for('crypto.user_index'), code=400)
     
     if not ticker:
         # no username key
@@ -32,11 +32,11 @@ def show_coins():
     
     elif not crypto_models.get_one_coin(ticker):
         # username doesn't exist on Upbit KRW market
-        return redirect(url_for('crypto.user_index'))
+        return redirect(url_for('main.user_index'))
     
     else:
         # 
-        return redirect(url_for('crypto.user_index'))
+        return redirect(url_for('main.user_index'))
 
 
 @bp.route('/coin/')
@@ -51,5 +51,5 @@ def delete_user(ticker=None):
     
     else:    
         crypto_models.del_coin_from_db(ticker)
-        return redirect(url_for('crypto.user_index'))
+        return redirect(url_for('main.user_index'))
 

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block alert %}
+{% if alert_msg %}
+<div class="alert alert-{{ alert_msg.type }}" role="alert">
+  {{ alert_msg.msg }}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block title %}
+Favorite Cryptos
+{% endblock %}
+
+{% block lead %}
+즐겨찾기 한 코인의 김치 프리미엄을 볼 수 있는 페이지입니다.
+{% endblock %}
+
+{% block main_body %}
+<!-- <form method="POST" action="/api/kimp">
+  <input name="ticker" style="margin-bottom:10px" class="form-control" type="text" placeholder="Enter tickers">
+  <input type="submit" class="btn btn-primary" value="Add" />
+</form> -->
+
+{% if coin_price %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ticker</th>
+      <th scope="col">업비트 가격 (원)</th>
+      <th scope="col">바이낸스 가격 (원)</th>
+      <th scope="col">김치 프리미엄</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for element in coin_price %}
+    <tr>
+      <th scope="row">{{ element['ticker'] }}</th>
+      <td>{{ element['upbit'] }}</td>
+      <td>{{ element['binance'] * dollor|round(2) }}</td>
+      <td>{{ ((element['upbit'] - element['binance'] * dollor) / (element['binance'] * dollor) * 100)|round(2) }}%</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% endblock %}

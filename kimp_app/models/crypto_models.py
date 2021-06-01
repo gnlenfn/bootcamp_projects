@@ -1,14 +1,17 @@
 from kimp_app import db
+#from kimp_app.services.tweepy_api import get_tweets, get_user
+#from kimp_app.services.embedding_api import get_embeddings
+#from kimp_app.models.user_model import get_one_user
 
 
 class Crypto(db.Model):
     __tablename__ = 'crypto'
     # id, price, high, low, coin name(eng, kr)
+    #id = db.Column(db.Integer())
     ticker = db.Column(db.String(), primary_key=True)
     name_eng = db.Column(db.String())
     name_kor = db.Column(db.String())
-    crypto = db.relationship("Price", backref="price.crypto_ticker",
-                                 cascade='all, delete-orphan')
+    crypto_id = db.relationship("Price", backref="price.crypto_ticker")
 
 
     def __repr__(self):
@@ -16,20 +19,20 @@ class Crypto(db.Model):
 
 
 def add_crypto_to_db(info):
-    new_user = Crypto(
+    new_coin = Crypto(
         ticker = info['market'].split("-")[1],
         name_eng = info['english_name'],
         name_kor = info['korean_name'],
     )
 
-    if not Crypto.query.filter_by(ticker=new_user.ticker).first():
+    if not Crypto.query.filter_by(ticker=new_coin.ticker).first():
         # if there is no new_user.id
-        db.session.add(new_user)
+        db.session.add(new_coin)
         db.session.commit()
         
 def get_coins():
     # return all users in db
-    return Crypto.query.all().order_by(Crypto.ticker)
+    return Crypto.query.all()
 
 def get_one_coin(ticker):
     # return one target user

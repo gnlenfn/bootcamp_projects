@@ -28,10 +28,10 @@ def create_app(config=None):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from kimp_app.routes import (kimp_routes, main_routes, add_crypto_routes)
+    from kimp_app.routes import (main_routes, add_crypto_routes)
     app.register_blueprint(main_routes.bp)
     app.register_blueprint(add_crypto_routes.bp, url_prefix='/api')
-    app.register_blueprint(kimp_routes.bp, url_prefix='/api')
+    #app.register_blueprint(kimp_routes.bp, url_prefix='/api')
 
     return app
 
