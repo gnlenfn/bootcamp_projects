@@ -53,4 +53,4 @@ def prediction():
         result = model.predict(features)
     
     result = str(result[0])
-    return 
+    return render_template("predict.html", prediction=result)
