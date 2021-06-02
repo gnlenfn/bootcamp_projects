@@ -38,6 +38,7 @@ def process():
 
 
     train_set = data_df[data_df['Timestamp'] < datetime(2021, 3, 1)]
+    train_set = data_df[data_df['Timestamp'] >= datetime(2017, 3, 1)]
     test_set = data_df[data_df['Timestamp'] >= datetime(2021, 3, 1)]
 
     X_train, y_train = train_set[['Open', 'Close', 'High', 'Low']], train_set['label']
