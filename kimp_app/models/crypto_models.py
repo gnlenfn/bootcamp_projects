@@ -32,7 +32,7 @@ def add_crypto_to_db(info):
         
 def get_coins():
     # return all users in db
-    return Crypto.query.all()
+    return Crypto.query.order_by(Crypto.ticker).all()
 
 def get_one_coin(ticker):
     # return one target user

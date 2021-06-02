@@ -43,7 +43,7 @@ def get_coin_price(ticker):
     return Price.query.filter_by(crypto_ticker=ticker).first()
 
 def get_prices():
-    return Price.query.all()
+    return Price.query.order_by(Price.crypto_ticker).all()
 
 def del_price_from_db(ticker):
     target = Price.query.filter(Price.ticker==ticker).first()
