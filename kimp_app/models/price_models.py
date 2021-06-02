@@ -46,7 +46,7 @@ def get_prices():
     return Price.query.order_by(Price.crypto_ticker).all()
 
 def del_price_from_db(ticker):
-    target = Price.query.filter(Price.ticker==ticker).first()
+    target = Price.query.filter(Price.crypto_ticker==ticker).first()
     if target:
         db.session.delete(target)
         db.session.commit()

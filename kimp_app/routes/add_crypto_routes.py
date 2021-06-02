@@ -53,3 +53,9 @@ def delete_user(ticker=None):
         crypto_models.del_coin_from_db(ticker)
         return redirect(url_for('main.user_index'))
 
+
+@bp.route('/update/')
+@bp.route('/update/<string:ticker>')
+def update_price(ticker=None):  
+    price_models.add_coin_price(ticker)
+    return redirect(url_for('main.user_index'))
