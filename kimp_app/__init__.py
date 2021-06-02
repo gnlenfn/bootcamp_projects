@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import config
+import os
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -31,11 +32,11 @@ def create_app(config=None):
     from kimp_app.routes import (main_routes, add_crypto_routes)
     app.register_blueprint(main_routes.bp)
     app.register_blueprint(add_crypto_routes.bp, url_prefix='/api')
-    #app.register_blueprint(kimp_routes.bp, url_prefix='/api')
 
     return app
 
 if __name__ == "__main__":
     clear_data()
     app = create_app()
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))     
+    app.run(host='0.0.0.0', port=port, debug=True)
